@@ -1,0 +1,145 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="column is-4 is-offset-4">
+        <h3 class="title">Sign Up</h3>
+        <div class="box">
+            <form method="POST" action="/signup">
+                <div class="field">
+                    <div class="control">
+                        <input class="input is-large" type="email" name="email" placeholder="Email" autofocus="" required>
+                    </div>
+                </div>
+
+                <div class="field">
+                    <div class="control">
+                        <input class="input is-large" type="text" name="name" placeholder="Імʼя" required>
+                    </div>
+                </div>
+
+                <div class="field addons-div">
+                    <div class="control">
+                        <input class="input is-large addons-field" type="text" name="address" placeholder="Адреса" required>
+                    </div>
+                </div>
+
+                <div class="field addons-div">
+                    <div class="control">
+                        <input class="input is-large addons-field" type="text" name="post_index" placeholder="Почтовий індекс" required>
+                    </div>
+                </div>
+
+                <div class="field foreign-addons-div is-hidden">
+                    <div class="control">
+                        <input class="input is-large foreign-addons-field" type="text" name="country" placeholder="Країна">
+                    </div>
+                </div>
+
+                <div class="field addons-div">
+                    {% if aggregators|length > 0 %}
+
+                        <label for="stations">Тип електроенергії:</label>
+                        <div class="select">
+                            <select name="stations">
+                                <option selected value="None">Не обрано</option>
+                                {% for station in stations %}
+                                    <option value="{{ station }}">{{ stations[station] }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="select">
+                            <select name="aggregators">
+                                {% for aggregator in aggregators %}
+                                    <option selected value="{{ aggregator.id }}">{{ aggregator.name }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    {% else %}
+                        <label>Наразі немає регуляторів ринку</label>
+                    {% endif %}
+                </div>
+
+                <div class="field">
+                    <div class="control">
+                        <label class="radio" style="display: block; margin: 0">
+                            <input type="radio" name="account_type" checked value="User" onclick="showAddons();hideForeignAddons();">
+                            Користувач
+                        </label>
+                        <label class="radio" style="display: block; margin: 0">
+                            <input type="radio" name="account_type" value="Salesman" onclick="hideAddons();hideForeignAddons();">
+                            Зберігач енергії
+                        </label>
+                        <label class="radio" hidden style="display: block; margin: 0">
+                            <input type="radio" name="account_type" value="Aggregator" onclick="hideAddons();hideForeignAddons();" hidden>
+                            <span hidden></span>
+                        </label>
+                        <label class="radio" style="display: block; margin: 0">
+                            <input type="radio" name="account_type" value="ForeignUser" onclick="showAddons();showForeignAddons();">
+                            Іноземний користувач
+                        </label>
+                    </div>
+                </div>
+
+                <div class="field">
+                    <div class="control">
+                        <input class="input is-large" type="password" name="password" placeholder="Password" required>
+                    </div>
+                </div>
+
+                <button class="button is-block is-info is-large is-fullwidth">Sign Up</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        function showAddons() {
+            const div_addons = document.getElementsByClassName("addons-div");
+            for (const div_addon of div_addons) {
+              div_addon.classList.remove('is-hidden');
+            }
+
+            const field_addons = document.getElementsByClassName("addons-field");
+            for (const field_addon of field_addons) {
+              field_addon.setAttribute("required", "");
+            }
+        }
+
+        function hideAddons() {
+            const div_addons = document.getElementsByClassName("addons-div");
+            for (const div_addon of div_addons) {
+              div_addon.classList.add('is-hidden');
+            }
+
+            const field_addons = document.getElementsByClassName("addons-field");
+            for (const field_addon of field_addons) {
+              field_addon.removeAttribute("required");
+            }
+        }
+
+        function showForeignAddons() {
+            const div_addons = document.getElementsByClassName("foreign-addons-div");
+            for (const div_addon of div_addons) {
+              div_addon.classList.remove('is-hidden');
+            }
+
+            const field_addons = document.getElementsByClassName("foreign-addons-field");
+            for (const field_addon of field_addons) {
+              field_addon.setAttribute("required", "");
+            }
+        }
+
+        function hideForeignAddons() {
+            const div_addons = document.getElementsByClassName("foreign-addons-div");
+            for (const div_addon of div_addons) {
+              div_addon.classList.add('is-hidden');
+            }
+
+            const field_addons = document.getElementsByClassName("foreign-addons-field");
+            for (const field_addon of field_addons) {
+              field_addon.removeAttribute("required");
+            }
+        }
+    </script>
+
+{% endblock %}
+

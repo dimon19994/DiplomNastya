@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="column is-4 is-offset-4">
+    <h3 class="title">Поповнення рахунку</h3>
+    <div class="box">
+        <form method="POST" action="/edit_foreign_user_coefficient">
+            <div class="field">
+                <label for="buy_local">Користувач</label>
+                <div class="control">
+                    <input class="input is-large" id="buy_local" type="number" step="0.01" name="coefficient"
+                           placeholder="Коефіціент" autofocus="" required value="{{ coefficient }}">
+                </div>
+            </div>
+
+            <div class="field">
+                <label for="buy_foregin">Іноземний користувач</label>
+                <div class="control">
+                    <input class="input is-large" id="buy_foregin" type="number" step="0.01" name="coefficient"
+                           placeholder="Коефіціент" autofocus="" required value="{{ coefficient }}">
+                </div>
+            </div>
+
+            <button class="button is-block is-info is-large is-fullwidth">Змінити коефіціент</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="column">
+    <h3 class="title">Lots</h3>
+    <div class="box">
+        <table class="table is-fullwidth">
+            <thead>
+                <tr>
+                    <th>Amount per kilowatt</th>
+                    <th>Company name</th>
+                    <th>Electricity type</th>
+                    <th>Number of kilowatt</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% if lots|length > 0 %}
+                    {% for lot in lots %}
+
+                        <tr>
+                            <td>{{ lot.amount_per_kilowatt }}</td>
+                            <td>{{ lot.company_name }}</td>
+                            <td>{{ lot.electricity.electricity_type }}</td>
+                            <td>{{ lot.kilowatts_number }}</td>
+                            <td>
+                            <div class="columns">
+                                <div class="column">
+                                    <a class="button is-success is-rounded is-small" href="{{ url_for('main.buy_lot', lot_id=lot.id) }}">Buy</a>
+                                </div>
+                            </div>
+                            </td>
+                        </tr>
+
+                    {% endfor %}
+                {% else %}
+                    <tr><th>Empty</th></tr>
+                {% endif %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+{% endblock %}

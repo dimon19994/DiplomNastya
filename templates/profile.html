@@ -1,0 +1,90 @@
+{% extends "base.html" %}
+
+{% block content %}
+    {% if current_user.account_type == 0 %}
+        <div class="columns is-multiline is-mobile is-centered">
+            <div class="column is-two-fifths">
+                <h3 class="title">User ID</h3>
+                <div class="box">
+                    Ваш userID: {{ current_user.id }}, aggregatorID: {{ current_user.addons["aggregator_id"] }}
+                </div>
+            </div>
+        </div>
+    {% else %}
+        <div class="columns is-multiline is-mobile">
+            <div class="column is-one-quarter">
+                <h3 class="title">Гаманець</h3>
+                <div class="box">
+                    Баланс: {{ wallet_balance }}
+                    <a class="button is-success is-rounded is-small" href="{{ url_for('main.edit_wallet') }}">Поповнити баланс</a>
+                </div>
+            </div>
+            <div class="column is-three-quarter">
+                {% if current_user.account_type == 1 %}
+                    <h3 class="title">Електроенергія</h3>
+                    <div class="box">
+                        <table class="table is-fullwidth">
+                            <thead>
+                                <tr>
+                                <th>Загальна кількість кіловатів енергії</th>
+                                <th>Кількістть заморожених кіловатів енергії</th>
+                                <th>Ціна за кіловат енергії</th>
+                                </tr>
+                            </thead>
+                                <tfoot>
+                                    <tr>
+                                        <th colspan="4"><a class="button is-success is-rounded is-small" href="{{ url_for('main.add_electricity') }}">Додати електроенергії для продажі</a></th>
+                                    </tr>
+                                </tfoot>
+                            <tbody>
+                                {% if electricities|length > 0 %}
+                                    {% for electricity in electricities %}
+                                        <tr>
+                                            <td>{{ electricity.total_kilowatts }}</td>
+                                            <td>{{ electricity.total_kilowatts_freeze }}</td>
+                                            <th>{{ electricity.amount_per_kilowatt }}</th>
+                                        </tr>
+                                    {% endfor %}
+                                {% else %}
+                                        <tr><th>Наразі електроенергія відсутня</th></tr>
+                                {% endif %}
+                            </tbody>
+                        </table>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+        {% if current_user.account_type == 2 %}
+            <div class="column">
+                <h3 class="title">Предзамовлення</h3>
+                <div class="box">
+                    <table class="table is-fullwidth">
+                        <thead>
+                            <tr>
+                                <th>Статус</th>
+                                <th>Середня ціна за кіловат</th>
+                                <th>Кількість кіловатів</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        {% if lots|length > 0 %}
+                            {% for lot in lots %}
+
+                                <tr>
+                                    <th>{{ lot.status|lot_status }}</th>
+                                    <td>{{ lot.average_price }}</td>
+                                    <td>{{ lot.kilowatts_number }}</td>
+                                </tr>
+
+                            {% endfor %}
+                        {% else %}
+                            <tr><th>Наразі відсутні</th></tr>
+                        {% endif %}
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+        {% endif %}
+    {% endif %}
+{% endblock %}
