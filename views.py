@@ -11,7 +11,6 @@ from controllers.edit_coefficient import EditUserCoefficientController, \
     EditForeignUserCoefficientController,\
     EditUserLimitCoefficientController,\
     EditMinReserveCoefficientController
-
 from controllers.edit_electricity import EditElectricityController
 from controllers.edit_lot import EditLotController
 from controllers.edit_wallet import EditWalletController
@@ -21,6 +20,7 @@ from controllers.login import LoginController
 from controllers.logout import LogoutController
 from controllers.profile import ProfileController
 from controllers.signup import SignUpController
+from controllers.buy_electricity import BuyElectricityController
 from models import Lot
 
 blueprint = Blueprint('main', __name__)
@@ -150,3 +150,10 @@ def lots(status=None):
                            search=search)
 
     return render_template('lots.html', lots=lots_for_render, pagination=pagination)
+
+
+@blueprint.route("/buy_electricity", methods=["GET", "POST"])
+@login_required
+def buy_electricity():
+    # todo покупка создать лот
+    return BuyElectricityController(request).call()

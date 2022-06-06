@@ -43,11 +43,13 @@ def preorder_kilowatts():
             last_lot.status = LotStatuses.Success
             last_lot.save()
 
+        #заявка на покупку
         additional_order_kilowatts(total_kilowatts, aggregator)
 
 
 def create_app(config=None):
     sched = BackgroundScheduler(daemon=True)
+    # покупка
     sched.add_job(preorder_kilowatts, 'cron', hour=4, minute=59)
     sched.start()
 

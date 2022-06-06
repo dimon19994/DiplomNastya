@@ -1,0 +1,97 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="columns is-multiline is-mobile">
+        <div class="column">
+            <h3 class="title">Гаманець</h3>
+            <div class="box">
+                <p>Баланс: {{ current_user.wallet.balance }}</p>
+                <p> {{ "Країна: " + country }}</p>
+                <a class="button is-success is-rounded is-small" href="{{ url_for('main.edit_wallet') }}">Поповнити баланс</a>
+            </div>
+        </div>
+
+        <div class="column">
+            <h3 class="title">Створення заявки на продаж</h3>
+            <div class="box">
+                <a class="button is-success is-rounded" href="{{ url_for('main.add_electricity') }}">Створити заявку</a>
+            </div>
+        </div>
+
+        <div class="column">
+            <h3 class="title">Створення заявки на купівлю</h3>
+            <div class="box">
+                <a class="button is-success is-rounded" href="{{ url_for('main.buy_electricity') }}">Створити заявку</a>
+            </div>
+        </div>
+
+        <div class="column">
+            <h3 class="title">Пропозиції на ринку</h3>
+            <div class="box">
+                <a class="button is-success is-rounded" href="{{ url_for('main.lots', status=0) }}">Переглянути пропозицій</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="column is-three-quarter">
+        <h3 class="title">Електроенергія (припозыцыъ на ринку)</h3>
+        <div class="box">
+            <table class="table is-fullwidth">
+                <thead>
+                <tr>
+                    <th>Загальна кількість кіловатів енергії</th>
+                    <th>Кількістть заморожених кіловатів енергії</th>
+                    <th>Ціна за кіловат енергії</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% if electricities|length > 0 %}
+                    {% for electricity in electricities %}
+                        <tr>
+                            <td>{{ electricity.total_kilowatts }}</td>
+                            <td>{{ electricity.total_kilowatts_freeze }}</td>
+                            <th>{{ electricity.amount_per_kilowatt }}</th>
+                        </tr>
+                    {% endfor %}
+                {% else %}
+                    <tr><th>Наразі електроенергія відсутня</th></tr>
+                {% endif %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="column is-three-quarter">
+        <h3 class="title">Операції</h3>
+        {{ pagination.info }}
+        {{ pagination.links }}
+        <div class="box">
+            <table class="table is-fullwidth">
+                <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Статус</th>
+                    <th>Середня ціна за кіловат</th>
+                    <th>Кількість кіловатів</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% if lots|length > 0 %}
+                    {% for lot in lots %}
+
+                        <tr>
+                            <td>{{ loop.index + pagination.skip }}</td>
+                            <th>{{ lot.status|lot_status }}</th>
+                            <td>{{ lot.average_price }}</td>
+                            <td>{{ lot.kilowatts_number }}</td>
+                        </tr>
+
+                    {% endfor %}
+                {% else %}
+                    <tr><th>Наразі відсутні</th></tr>
+                {% endif %}
+                </tbody>
+            </table>
+        </div>
+        {{ pagination.links }}
+    </div>
+{% endblock %}

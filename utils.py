@@ -1,7 +1,9 @@
 import random
+from peewee import fn
+from random import shuffle
 
-from constants import LotStatuses, DEFAULT_PRIORITY
-from models import Electricity, Lot
+from constants import LotStatuses, DEFAULT_PRIORITY, AccountType
+from models import Electricity, Lot, User
 
 
 def get_request_data(request):
@@ -32,8 +34,19 @@ def sort_by_priority(electricities):
 
 
 def additional_order_kilowatts(total_kilowatts, aggregator):
-    electricities = list(Electricity.select().order_by(Electricity.amount_per_kilowatt.desc()))
-    electricities = sort_by_priority(electricities)
+    electricities = Electricity.select(Electricity).join(User) \
+        .having((User.account_type == AccountType.Salesman) &
+                (fn.sum(Electricity.total_kilowatts - Electricity.total_kilowatts_freeze) > 0)) \
+        .group_by(Electricity, User.account_type)
+
+    if len(electricities) == 0:
+        electricities = Electricity.select(Electricity).join(User) \
+            .having((User.account_type == AccountType.Salesman) &
+                    (fn.sum(Electricity.total_kilowatts - Electricity.total_kilowatts_freeze) > 0)) \
+            .group_by(Electricity)
+
+    shuffle(electricities)
+
     total_free_kilowatts = sum(
         [(electricity.total_kilowatts - electricity.total_kilowatts_freeze) for electricity in electricities])
 
@@ -59,4 +72,3 @@ def additional_order_kilowatts(total_kilowatts, aggregator):
                    kilowatts_number=preorder["kilowatt_count"])
         aggregator.wallet.balance -= preorder["amount"]
         aggregator.wallet.save()
-

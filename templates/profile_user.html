@@ -6,7 +6,6 @@
             <h3 class="title">Гаманець</h3>
             <div class="box">
                 <p>Баланс: {{ current_user.wallet.balance }}</p>
-                <p> {{ ("Країна: " + country) if country is not none else "" }}</p>
                 <a class="button is-success is-rounded is-small" href="{{ url_for('main.edit_wallet') }}">Поповнити баланс</a>
             </div>
         </div>

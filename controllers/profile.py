@@ -17,7 +17,9 @@ class ProfileController(_Controller):
             per_page = 10
             offset = (page - 1) * per_page
 
-            lots = Lot.select().where(Lot.aggregator == current_user.id).order_by(Lot.id.desc())
+            electricities = list(Electricity.select().where(Electricity.user == current_user))
+
+            lots = Lot.select().where(Lot.aggregator == current_user).order_by(Lot.id.desc())
             lots_for_render = lots.limit(per_page).offset(offset)
 
             search = False
@@ -34,8 +36,12 @@ class ProfileController(_Controller):
             min_reserve = current_user.addons.get("min_reserve", MIN_RESERVE)
             country = current_user.addons.get("country")
 
-            return render_template(self.template.format("user"), lots=lots_for_render, pagination=pagination,
-                                   user_limit=user_limit, min_reserve=min_reserve, country=country)
+            if current_user.account_type == AccountType.User:
+                return render_template(self.template.format("user"), lots=lots_for_render, pagination=pagination,
+                                       user_limit=user_limit, min_reserve=min_reserve)
+            elif current_user.account_type == AccountType.ForeignUser:
+                return render_template(self.template.format("foreign"), lots=lots_for_render, pagination=pagination,
+                                       country=country, electricities=electricities)
 
         elif current_user.account_type == AccountType.Salesman:
             electricities = list(Electricity.select().where(Electricity.user == current_user))
