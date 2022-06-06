@@ -48,10 +48,14 @@ class ProfileController(_Controller):
             return render_template(self.template.format("salesman"), electricities=electricities)
 
         elif current_user.account_type == AccountType.Aggregator:
-            user_coefficient = current_user.addons.get("user_coefficient", DEFAULT_COEFFICIENT)
-            foreign_user_coefficient = current_user.addons.get("foreign_user_coefficient", DEFAULT_COEFFICIENT)
+            user_sale_coefficient = current_user.addons.get("user_sale_coefficient", DEFAULT_COEFFICIENT)
+            user_buy_coefficient = current_user.addons.get("user_buy_coefficient", DEFAULT_COEFFICIENT)
+            user_sale_foreign_coefficient = current_user.addons.get("user_sale_foreign_coefficient", DEFAULT_COEFFICIENT)
+            user_buy_foreign_coefficient = current_user.addons.get("user_buy_foreign_coefficient", DEFAULT_COEFFICIENT)
             return render_template(
                 self.template.format("aggregator"),
-                user_coefficient=user_coefficient,
-                foreign_user_coefficient=foreign_user_coefficient,
+                user_sale_coefficient=user_sale_coefficient,
+                user_buy_coefficient=user_buy_coefficient,
+                user_sale_foreign_coefficient=user_sale_foreign_coefficient,
+                user_buy_foreign_coefficient=user_buy_foreign_coefficient,
             )

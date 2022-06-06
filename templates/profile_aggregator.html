@@ -13,18 +13,18 @@
         <div class="column">
             <h3 class="title">Коефіціент продажу</h3>
             <div class="box">
-                <p>Корисувач: {{ user_coefficient }}</p>
-                <p>Іноземний корисувач: {{ user_coefficient }}</p>
-                <a class="button is-success is-rounded is-small" href="{{ url_for('main.edit_user_coefficient') }}">Змінити коефіціент</a>
+                <p>Корисувач: {{ user_sale_coefficient }}</p>
+                <p>Іноземний корисувач: {{ user_sale_foreign_coefficient }}</p>
+                <a class="button is-success is-rounded is-small" href="{{ url_for('main.edit_user_sale_coefficient') }}">Змінити коефіціент</a>
             </div>
         </div>
 
         <div class="column">
             <h3 class="title">Коефіціент купівлі</h3>
             <div class="box">
-                <p>Корисувач: {{ foreign_user_coefficient }}</p>
-                <p>Іноземний корисувач: {{ foreign_user_coefficient }}</p>
-                <a class="button is-success is-rounded is-small" href="{{ url_for('main.edit_foreign_user_coefficient') }}">Змінити коефіціент</a>
+                <p>Корисувач: {{ user_buy_coefficient }}</p>
+                <p>Іноземний корисувач: {{ user_buy_foreign_coefficient }}</p>
+                <a class="button is-success is-rounded is-small" href="{{ url_for('main.edit_user_buy_coefficient') }}">Змінити коефіціент</a>
             </div>
         </div>
 

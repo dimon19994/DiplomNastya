@@ -106,13 +106,13 @@ def edit_wallet():
     return EditWalletController(request).call()
 
 
-@blueprint.route("/edit_user_coefficient", methods=["POST", "GET"])
-def edit_user_coefficient():
+@blueprint.route("/edit_user_sale_coefficient", methods=["POST", "GET"])
+def edit_user_sale_coefficient():
     return EditUserCoefficientController(request).call()
 
 
-@blueprint.route("/edit_foreign_user_coefficient", methods=["POST", "GET"])
-def edit_foreign_user_coefficient():
+@blueprint.route("/edit_user_buy_coefficient", methods=["POST", "GET"])
+def edit_user_buy_coefficient():
     return EditForeignUserCoefficientController(request).call()
 
 

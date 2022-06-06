@@ -35,7 +35,7 @@ def preorder_kilowatts():
 
             if last_lot.kilowatts_number > total_kilowatts:
                 kilowatts_for_sale = last_lot.kilowatts_number - total_kilowatts
-                Electricity.create(total_kilowatts=kilowatts_for_sale, amount_per_kilowatt=last_lot.average_amount*aggregator.addons.get("user_coefficient", DEFAULT_COEFFICIENT), user=aggregator)
+                Electricity.create(total_kilowatts=kilowatts_for_sale, amount_per_kilowatt=last_lot.average_amount*aggregator.addons.get("user_sale_coefficient", DEFAULT_COEFFICIENT), user=aggregator)
 
             if last_lot.is_addition_order:
                 total_kilowatts *= 1.1
