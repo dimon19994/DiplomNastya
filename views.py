@@ -10,7 +10,9 @@ from controllers.delete_lot import DeleteLotController
 from controllers.edit_coefficient import EditUserCoefficientController, \
     EditForeignUserCoefficientController,\
     EditUserLimitCoefficientController,\
-    EditMinReserveCoefficientController
+    EditMinReserveCoefficientController, \
+    EditUserSalePriorithyController,\
+    EditUserBuyPriorithyController
 from controllers.edit_electricity import EditElectricityController
 from controllers.edit_lot import EditLotController
 from controllers.edit_wallet import EditWalletController
@@ -125,6 +127,16 @@ def edit_user_limit_coefficient():
 @blueprint.route("/edit_min_reserve_coefficient", methods=["POST", "GET"])
 def edit_min_reserve_coefficient():
     return EditMinReserveCoefficientController(request).call()
+
+
+@blueprint.route("/edit_user_sale_priority", methods=["POST", "GET"])
+def edit_user_sale_priority():
+    return EditUserSalePriorithyController(request).call()
+
+
+@blueprint.route("/edit_user_buy_priority", methods=["POST", "GET"])
+def edit_user_buy_priority():
+    return EditUserBuyPriorithyController(request).call()
 
 
 @blueprint.route("/lots/<status>", methods=["POST", "GET"])

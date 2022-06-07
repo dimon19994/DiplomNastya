@@ -52,6 +52,13 @@
             </Attribute>
           </value>
         </entry>
+        <entry key="\templates\edit_user_sale_priority.html">
+          <value>
+            <Attribute>
+              <option name="separator" value=":" />
+            </Attribute>
+          </value>
+        </entry>
         <entry key="\templates\electricitie_base.html">
           <value>
             <Attribute>

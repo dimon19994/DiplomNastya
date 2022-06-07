@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="column is-4 is-offset-4">
+    <h3 class="title">Оберіть пріорітети продажу</h3>
+    <div class="box">
+        <form method="POST" action="/edit_user_sale_priority">
+
+            <div class="field">
+                <div class="control">
+                    <label for="sale_priority_1" style="padding: 5px 0 0 0; display: inline-block">1</label>
+                    <div class="select">
+                        <select name="sale_priority_1" required>
+                            {% for value in values %}
+                                <option value="{{ value }}" {% if coefficient[0] == value %}selected{% endif %}>{{ values[value]}}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="field">
+                <div class="control">
+                    <label for="sale_priority_2" style="padding: 5px 0 0 0; display: inline-block">2</label>
+                    <div class="select">
+                        <select name="sale_priority_2" required>
+                            {% for value in values %}
+                                <option value="{{ value }}" {% if coefficient[1] == value %}selected{% endif %}>{{ values[value]}}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="field">
+                <div class="control">
+                    <label for="sale_priority_3" style="padding: 5px 0 0 0; display: inline-block">3</label>
+                    <div class="select">
+                        <select name="sale_priority_3" required>
+                            {% for value in values %}
+                                <option value="{{ value }}" {% if coefficient[2] == value %}selected{% endif %}>{{ values[value]}}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <button class="button is-block is-info is-large is-fullwidth">Змінити пріорітети</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

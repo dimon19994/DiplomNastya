@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 
 {% block content %}
+    <h3 class="title">Показник балансу: 10000000000000000000000000000000</h3>
     <div class="columns is-multiline is-mobile">
         <div class="column">
             <h3 class="title">Гаманець</h3>
@@ -25,6 +26,26 @@
                 <p>Корисувач: {{ user_buy_coefficient }}</p>
                 <p>Іноземний корисувач: {{ user_buy_foreign_coefficient }}</p>
                 <a class="button is-success is-rounded is-small" href="{{ url_for('main.edit_user_buy_coefficient') }}">Змінити коефіціент</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="columns is-multiline is-mobile">
+        <div class="column">
+            <h3 class="title">Пріорітет продажу</h3>
+            <div class="box">
+                <p>В першу чергу: {{ user_sale_priority }}</p>
+                <a class="button is-success is-rounded is-small" href="{{ url_for('main.edit_user_sale_priority') }}">
+                    Змінити пріорітет</a>
+            </div>
+        </div>
+
+        <div class="column">
+            <h3 class="title">Пріорітет купівлі</h3>
+            <div class="box">
+                <p>В останню чергу: {{ user_buy_priority }}</p>
+                <a class="button is-success is-rounded is-small" href="{{ url_for('main.edit_user_buy_priority') }}">
+                    Змінити пріорітет</a>
             </div>
         </div>
 

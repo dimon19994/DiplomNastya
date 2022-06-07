@@ -2,7 +2,7 @@ from flask import render_template, flash, redirect, url_for
 from flask_login import current_user
 
 from controllers import _Controller
-from constants import DEFAULT_COEFFICIENT, USER_LIMIT, MIN_RESERVE
+from constants import DEFAULT_COEFFICIENT, USER_LIMIT, MIN_RESERVE, sale_priority, buy_priority
 from eth import EthProtocol
 
 
@@ -90,3 +90,41 @@ class EditMinReserveCoefficientController(_Controller):
     def _get(self):
         coefficient = current_user.addons.get("min_reserve", MIN_RESERVE)
         return render_template(self.template, coefficient=coefficient)
+
+
+class EditUserSalePriorithyController(_Controller):
+    template = 'edit_user_sale_priority.html'
+
+    def _post(self):
+        priority_1 = int(self.request_data.get("sale_priority_1", 1))
+        priority_2 = int(self.request_data.get("sale_priority_2", 1))
+        priority_3 = int(self.request_data.get("sale_priority_3", 1))
+
+        current_user.addons["user_sale_priority"] = [priority_1, priority_2, priority_3]
+        current_user.save()
+        flash("Пріорітети успішно змінено")
+
+        return redirect(url_for("main.profile"))
+
+    def _get(self):
+        priority = current_user.addons.get("user_sale_priority", [1, 2, 3])
+        return render_template(self.template, coefficient=priority, values=sale_priority)
+
+
+class EditUserBuyPriorithyController(_Controller):
+    template = 'edit_user_buy_priority.html'
+
+    def _post(self):
+        priority_1 = int(self.request_data.get("buy_priority_1", 1))
+        priority_2 = int(self.request_data.get("buy_priority_2", 1))
+        priority_3 = int(self.request_data.get("buy_priority_3", 1))
+
+        current_user.addons["user_buy_priority"] = [priority_1, priority_2, priority_3]
+        current_user.save()
+        flash("Пріорітети успішно змінено")
+
+        return redirect(url_for("main.profile"))
+
+    def _get(self):
+        priority = current_user.addons.get("user_buy_priority", [1, 2, 3])
+        return render_template(self.template, coefficient=priority, values=buy_priority)

@@ -2,7 +2,7 @@ from flask import render_template
 from flask_login import current_user
 from flask_paginate import Pagination
 
-from constants import AccountType, DEFAULT_COEFFICIENT, DEFAULT_PRIORITY, MIN_RESERVE, USER_LIMIT
+from constants import AccountType, DEFAULT_COEFFICIENT, DEFAULT_PRIORITY, MIN_RESERVE, USER_LIMIT, sale_priority, buy_priority
 from controllers import _Controller
 from eth import EthProtocol
 from models import Lot, Electricity, User
@@ -59,10 +59,14 @@ class ProfileController(_Controller):
             user_buy_coefficient = current_user.addons.get("user_buy_coefficient", DEFAULT_COEFFICIENT)
             user_sale_foreign_coefficient = current_user.addons.get("user_sale_foreign_coefficient", DEFAULT_COEFFICIENT)
             user_buy_foreign_coefficient = current_user.addons.get("user_buy_foreign_coefficient", DEFAULT_COEFFICIENT)
+            user_buy_priority = buy_priority.get(current_user.addons.get("user_buy_priority", [1, 2, 3])[0])
+            user_sale_priority = sale_priority.get(current_user.addons.get("user_sale_priority", [1, 2, 3])[0])
             return render_template(
                 self.template.format("aggregator"),
                 user_sale_coefficient=user_sale_coefficient,
                 user_buy_coefficient=user_buy_coefficient,
                 user_sale_foreign_coefficient=user_sale_foreign_coefficient,
                 user_buy_foreign_coefficient=user_buy_foreign_coefficient,
+                user_buy_priority=user_buy_priority,
+                user_sale_priority=user_sale_priority,
             )
