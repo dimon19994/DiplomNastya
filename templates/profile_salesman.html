@@ -1,47 +1,29 @@
 {% extends "base.html" %}
 
 {% block content %}
-
     <div class="columns is-multiline is-mobile">
-        <div class="column is-one-quarter">
+        <div class="column">
             <h3 class="title">Гаманець</h3>
             <div class="box">
-                Баланс: {{ current_user.wallet.balance }}
+                <p>Баланс: {{ current_user.wallet.balance }}</p>
                 <a class="button is-success is-rounded is-small" href="{{ url_for('main.edit_wallet') }}">Поповнити баланс</a>
             </div>
         </div>
-        <div class="column is-three-quarter">
-            <h3 class="title">Електроенергія</h3>
+
+        <div class="column">
+            <h3 class="title">Ліміт зберігання електроенергії</h3>
             <div class="box">
-                <table class="table is-fullwidth">
-                    <thead>
-                        <tr>
-                        <th>Загальна кількість кіловатів енергії</th>
-                        <th>Кількістть заморожених кіловатів енергії</th>
-                        <th>Ціна за кіловат енергії</th>
-                        </tr>
-                    </thead>
-                        <tfoot>
-                            <tr>
-                                <th colspan="4"><a class="button is-success is-rounded is-small" href="{{ url_for('main.add_electricity') }}">Додати електроенергії для продажі</a></th>
-                            </tr>
-                        </tfoot>
-                    <tbody>
-                        {% if electricities|length > 0 %}
-                            {% for electricity in electricities %}
-                                <tr>
-                                    <td>{{ electricity.total_kilowatts }}</td>
-                                    <td>{{ electricity.total_kilowatts_freeze }}</td>
-                                    <th>{{ electricity.amount_per_kilowatt }}</th>
-                                </tr>
-                            {% endfor %}
-                        {% else %}
-                                <tr><th>Наразі електроенергія відсутня</th></tr>
-                        {% endif %}
-                    </tbody>
-                </table>
+                <p>Ліміт: {{ user_limit }}</p>
+                <a class="button is-success is-rounded is-small" href="{{ url_for('main.edit_user_limit_coefficient') }}">Змінити ліміт</a>
+            </div>
+        </div>
+
+        <div class="column">
+            <h3 class="title">Пропозиції на ринку</h3>
+            <div class="box">
+                <a class="button is-success is-rounded" href="{{ url_for('main.view_electricity') }}">Переглянути пропозицій</a>
             </div>
         </div>
     </div>
-
+    {% include 'lots_base.html' %}
 {% endblock %}

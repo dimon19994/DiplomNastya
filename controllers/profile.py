@@ -5,24 +5,32 @@ from flask_paginate import Pagination
 from constants import AccountType, DEFAULT_COEFFICIENT, DEFAULT_PRIORITY, MIN_RESERVE, USER_LIMIT
 from controllers import _Controller
 from eth import EthProtocol
-from models import Lot, Electricity
+from models import Lot, Electricity, User
 
 
 class ProfileController(_Controller):
     template = 'profile_{}.html'
 
     def _get(self):
-        if current_user.account_type in [AccountType.User, AccountType.ForeignUser]:
+        if current_user.account_type in [AccountType.User, AccountType.ForeignUser, AccountType.Salesman]:
             page = int(self.request.args.get('page', 1))
             per_page = 10
             offset = (page - 1) * per_page
+            search = False
 
-            electricities = list(Electricity.select().where(Electricity.user == current_user))
+            electricitys = Electricity.select(User.name,
+                                              (Electricity.total_kilowatts -
+                                               Electricity.total_kilowatts_freeze).alias("kilowatts"),
+                                              Electricity.amount_per_kilowatt.alias("amount")) \
+                .join(User) \
+                .where(Electricity.user == current_user)
+
+            pagination_e = Pagination(page=page, per_page=per_page, offset=offset,
+                                      total=electricitys.count(), css_framework='bulma',
+                                      search=search)
 
             lots = Lot.select().where(Lot.aggregator == current_user).order_by(Lot.id.desc())
             lots_for_render = lots.limit(per_page).offset(offset)
-
-            search = False
 
             q = self.request.args.get('q')
             if q:
@@ -41,11 +49,10 @@ class ProfileController(_Controller):
                                        user_limit=user_limit, min_reserve=min_reserve)
             elif current_user.account_type == AccountType.ForeignUser:
                 return render_template(self.template.format("foreign"), lots=lots_for_render, pagination=pagination,
-                                       country=country, electricities=electricities)
-
-        elif current_user.account_type == AccountType.Salesman:
-            electricities = list(Electricity.select().where(Electricity.user == current_user))
-            return render_template(self.template.format("salesman"), electricities=electricities)
+                                       country=country, electricitys=electricitys, pagination_e=pagination_e)
+            elif current_user.account_type == AccountType.Salesman:
+                return render_template(self.template.format("salesman"), lots=lots_for_render, pagination=pagination,
+                                       user_limit=user_limit)
 
         elif current_user.account_type == AccountType.Aggregator:
             user_sale_coefficient = current_user.addons.get("user_sale_coefficient", DEFAULT_COEFFICIENT)

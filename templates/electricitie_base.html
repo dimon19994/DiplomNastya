@@ -1,0 +1,29 @@
+{{ pagination_e.info }}
+{{ pagination_e.links }}
+<div class="box">
+    <table class="table is-fullwidth">
+        <thead>
+        <tr>
+            <th>#</th>
+            <th>Користувач</th>
+            <th>Кількість кіловатів</th>
+            <th>Ціна за кіловат</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% if electricitys|length > 0 %}
+            {% for electricity in electricitys %}
+                <tr>
+                    <td>{{ loop.index + pagination_e.skip }}</td>
+                    <th>{{ electricity.user.name }}</th>
+                    <td>{{ electricity.kilowatts }}</td>
+                    <td>{{ electricity.amount }}</td>
+                </tr>
+            {% endfor %}
+        {% else %}
+            <tr><th>Наразі відсутні</th></tr>
+        {% endif %}
+        </tbody>
+    </table>
+</div>
+{{ pagination_e.links }}

@@ -109,3 +109,21 @@ class Lot(_Model):
 
 if __name__ == '__main__':
     db.create_tables([Wallet, User, Electricity, Lot, Indication])
+
+    Wallet.create(
+        address="jGiQNjUq9soFziVb2g3w5nQHvG4uzR",
+        password="7vqmqC9eWPv8po9aDdDmLZrY5at2w7",
+        balance=0,
+    )
+    User.create(email="r@gmail.com",
+                password="sha256$b5gwLH09t0Znh9tv$3ad5f6d447f7fbbf6127d7a1dd866466efeba14fac59797bb90d6e01269bca47",
+                name="Admin",
+                account_type="2",
+                wallet_id=1,
+                addons={
+                            "address": "test",
+                            "counrty": "",
+                            "post_index": "331303",
+                            "aggregator_id": None,
+                        }
+                )

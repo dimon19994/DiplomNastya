@@ -41,11 +41,9 @@ def additional_order_kilowatts(total_kilowatts, aggregator):
 
     if len(electricities) == 0:
         electricities = Electricity.select(Electricity).join(User) \
-            .having((User.account_type == AccountType.Salesman) &
-                    (fn.sum(Electricity.total_kilowatts - Electricity.total_kilowatts_freeze) > 0)) \
-            .group_by(Electricity)
-
-    shuffle(electricities)
+            .having((fn.sum(Electricity.total_kilowatts - Electricity.total_kilowatts_freeze) > 0)) \
+            .group_by(Electricity, User.account_type) \
+            .order_by(Electricity.id)
 
     total_free_kilowatts = sum(
         [(electricity.total_kilowatts - electricity.total_kilowatts_freeze) for electricity in electricities])

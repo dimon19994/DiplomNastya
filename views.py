@@ -21,6 +21,7 @@ from controllers.logout import LogoutController
 from controllers.profile import ProfileController
 from controllers.signup import SignUpController
 from controllers.buy_electricity import BuyElectricityController
+from controllers.view_electricity import ViewElectricityController
 from models import Lot
 
 blueprint = Blueprint('main', __name__)
@@ -157,3 +158,9 @@ def lots(status=None):
 def buy_electricity():
     # todo покупка создать лот
     return BuyElectricityController(request).call()
+
+
+@blueprint.route("/view_electricity", methods=["GET", "POST"])
+@login_required
+def view_electricity():
+    return ViewElectricityController(request).call()

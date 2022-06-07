@@ -18,7 +18,7 @@ def preorder_kilowatts():
         yesterday = datetime.datetime.now().day - 1
         indications = list(Indication.select().where((Indication.aggregator_id == aggregator.id) & (Indication.created.day == yesterday)))
         total_kilowatts = sum([indication.kilowatts_count for indication in indications])
-        last_lot = Lot.select().where(Lot.aggregator == aggregator).order_by(Lot.id.desc()).first()
+        last_lot = Lot.select().order_by(Lot.id.desc()).first()
         electricities = Electricity.select().order_by(Electricity.amount_per_kilowatt)
 
         if last_lot is not None:
@@ -35,7 +35,7 @@ def preorder_kilowatts():
 
             if last_lot.kilowatts_number > total_kilowatts:
                 kilowatts_for_sale = last_lot.kilowatts_number - total_kilowatts
-                Electricity.create(total_kilowatts=kilowatts_for_sale, amount_per_kilowatt=last_lot.average_amount*aggregator.addons.get("user_sale_coefficient", DEFAULT_COEFFICIENT), user=aggregator)
+                Electricity.create(total_kilowatts=kilowatts_for_sale, amount_per_kilowatt=last_lot.average_price*aggregator.addons.get("user_sale_coefficient", DEFAULT_COEFFICIENT), user=aggregator)
 
             if last_lot.is_addition_order:
                 total_kilowatts *= 1.1
@@ -50,7 +50,7 @@ def preorder_kilowatts():
 def create_app(config=None):
     sched = BackgroundScheduler(daemon=True)
     # покупка
-    sched.add_job(preorder_kilowatts, 'cron', hour=4, minute=59)
+    sched.add_job(preorder_kilowatts, 'cron', hour=0, minute=22)
     sched.start()
 
     app = Flask(BaseConfig.PROJECT, instance_relative_config=True)

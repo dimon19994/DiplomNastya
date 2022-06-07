@@ -1,0 +1,33 @@
+{{ pagination.info }}
+{{ pagination.links }}
+<div class="box">
+    <table class="table is-fullwidth">
+        <thead>
+        <tr>
+            <th>#</th>
+            <th>Статус</th>
+            <th>Ціна за кіловат</th>
+            <th>Кількість кіловатів</th>
+            <th>Сума</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% if lots|length > 0 %}
+            {% for lot in lots %}
+
+                <tr>
+                    <td>{{ loop.index + pagination.skip }}</td>
+                    <th>{{ lot.status|lot_status }}</th>
+                    <td>{{ lot.average_price }}</td>
+                    <td>{{ lot.kilowatts_number }}</td>
+                    <td>{{ lot.average_price * lot.kilowatts_number }}</td>
+                </tr>
+
+            {% endfor %}
+        {% else %}
+            <tr><th>Наразі відсутні</th></tr>
+        {% endif %}
+        </tbody>
+    </table>
+</div>
+{{ pagination.links }}
