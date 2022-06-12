@@ -1,13 +1,13 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <h3 class="title">Показник балансу: 10000000000000000000000000000000</h3>
+    <h3 class="title">Показник балансу: -1</h3>
     <div class="columns is-multiline is-mobile">
-        <div class="column">
+        <div class="column" >
             <h3 class="title">Гаманець</h3>
             <div class="box">
                 <p>Баланс: {{ current_user.wallet.balance }}</p>
-                <a class="button is-success is-rounded is-small" href="{{ url_for('main.edit_wallet') }}">Поповнити баланс</a>
+
             </div>
         </div>
 
@@ -32,7 +32,7 @@
 
     <div class="columns is-multiline is-mobile">
         <div class="column">
-            <h3 class="title">Пріорітет продажу</h3>
+            <h3 class="title">Пріоритет продажу</h3>
             <div class="box">
                 <p>В першу чергу: {{ user_sale_priority }}</p>
                 <a class="button is-success is-rounded is-small" href="{{ url_for('main.edit_user_sale_priority') }}">
@@ -41,11 +41,11 @@
         </div>
 
         <div class="column">
-            <h3 class="title">Пріорітет купівлі</h3>
+            <h3 class="title">Пріоритет купівлі</h3>
             <div class="box">
                 <p>В останню чергу: {{ user_buy_priority }}</p>
                 <a class="button is-success is-rounded is-small" href="{{ url_for('main.edit_user_buy_priority') }}">
-                    Змінити пріорітет</a>
+                    Змінити пріоритет</a>
             </div>
         </div>
 
