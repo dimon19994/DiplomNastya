@@ -105,6 +105,7 @@ class Lot(_Model):
     average_price = DoubleField()
     kilowatts_number = DoubleField()
     is_addition_order = BooleanField(default=False)
+    operation_type = CharField(max_length=255)
     
 
 if __name__ == '__main__':

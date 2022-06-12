@@ -9,6 +9,7 @@
             <th>Ціна за кіловат</th>
             <th>Кількість кіловатів</th>
             <th>Сума</th>
+            <th>Купівля/Продаж</th>
         </tr>
         </thead>
         <tbody>
@@ -21,6 +22,7 @@
                     <td>{{ lot.average_price }}</td>
                     <td>{{ lot.kilowatts_number }}</td>
                     <td>{{ lot.average_price * lot.kilowatts_number }}</td>
+                    <td>{{ lot.operation_type }}</td>
                 </tr>
 
             {% endfor %}
